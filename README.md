@@ -1,2 +1,7 @@
 # Computer-Security-Project
- This project is for Computer Security course provided in the 4th year of Faculty of Computers & Information, Luxor University.
+The project aims to create a user-friendly Python application with a graphical user interface (GUI) using Tkinter to perform cryptographic operations such as DES encryption, SHA-1 hashing, and Digital Signature Standard (DSS). This application will provide a convenient platform for users to encrypt and decrypt data using the Data Encryption Standard (DES), generate hash values using the SHA-1 algorithm, and sign/verify messages using the Digital Signature Standard.
+
+---
+## Contributors:
+- [Sara Abdelraheem Hamed]()
+- [Abdelrahim Mohamed Alsadiq]()
