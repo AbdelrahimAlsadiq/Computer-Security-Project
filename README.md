@@ -68,6 +68,6 @@ This application will provide a convenient platform for users to encrypt and dec
 ---
 ## 3. How is the Digital Signature Standard (DSS) Works:
 ---
-## Contributors:
-- [Sara Abdelraheem Hamed]()
-- [Abdelrahim Mohamed Alsadiq]()
+## Team Members:
+- [Sara Abdelraheem Hamed](https://github.com/SaraEldamarany)
+- [Abdelrahim Mohamed Alsadiq](https://github.com/AbdelrahimAlsadiq)
