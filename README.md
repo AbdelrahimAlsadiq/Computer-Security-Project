@@ -8,10 +8,7 @@ The project aims to create a user-friendly Python application with a graphical u
 This application will provide a convenient platform for users to encrypt and decrypt data using the Data Encryption Standard (DES), generate hash values using the SHA-1 algorithm, and sign/verify messages using the Digital Signature Standard.
 
 ---
-## 1. How is the Data Encryption Standard (DES) Works:
-
----
-## 2. How is the Secure Hash Algorithm 1 (SHA-1) Works:
+## 1. How is the Secure Hash Algorithm 1 (SHA-1) Works:
 1. **Padding:** 
     - The input message is padded so that its length is congruent to 448 modulo 512 bits. 
     - Padding ensures that the length of the message is a multiple of 512 bits (64 bytes).
@@ -66,8 +63,80 @@ This application will provide a convenient platform for users to encrypt and dec
 10. **Output:** 
     - The resulting hash value represents a unique and fixed-size representation of the input message.
 ---
+## 2. How is the Data Encryption Standard (DES) Works:
+1. **Key Generation:**
+    - Generate a 56-bit key from an input key of 64 bits by removing every eighth bit and ignoring parity bits. The resulting key is divided into sixteen 48-bit subkeys, one for each round of encryption.
+
+</br>
+
+2. **Initial Permutation (IP):**
+    - Permute the 64-bit plaintext block according to an initial permutation table (IP). This step rearranges the bits of the plaintext.
+
+</br>
+
+3. **Splitting and Expansion:**
+    - Divide the permuted plaintext block into two halves, each containing 32 bits.
+    - Expand the right half of 32 bits to 48 bits using an expansion permutation table.
+
+</br>
+
+4. **Key Mixing (XOR with Subkey):**
+    - Perform an XOR operation between the expanded 48-bit right half and the first 48-bit subkey derived from the main key.
+
+5. **Substitution (S-boxes):**
+    - Divide the result of the XOR operation into eight 6-bit blocks.
+    - Substitute each 6-bit block using eight substitution boxes (S-boxes), each providing a 4-bit output based on a 6-bit input. The S-boxes provide a nonlinear transformation.
+
+</br>
+
+6. **Permutation (P-box):**
+    - Permute the outputs of the S-boxes using a permutation table (P-box) to obtain a new 32-bit block.
+
+</br>
+
+7. **Feistel Network:**
+    - Use a Feistel network structure by swapping the left and right halves, and repeating steps 3 to 6 for a total of 16 rounds (iterations) with different subkeys.
+
+8. **Final Permutation (FP):**
+    - After the 16 rounds of the Feistel structure, perform a final permutation (FP) on the swapped halves of the data.
+
+</br>
+
+9. **Output:**
+    - The final permutation produces the encrypted 64-bit ciphertext block, which is the result of encrypting the original plaintext using DES.
+
+</br>
+
+10. **Decryption:**
+    - Decryption in DES is the same as encryption but with the subkeys used in reverse order.
+    - The ciphertext block undergoes an initial permutation (IP) similar to encryption, then goes through 16 rounds using the subkeys in reverse order.
+    - Finally, a final permutation (FP) is applied to obtain the decrypted plaintext block.
+
+---
 ## 3. How is the Digital Signature Standard (DSS) Works:
+1. **Key Generation:**
+    - Generate a pair of keys: a private key and a corresponding public key. The private key is kept secret, while the public key is shared with others.
+
+</br>
+
+2. **Message Hashing:**
+    - Calculate a hash value of the message using a secure hashing algorithm (e.g., SHA-1, SHA-256). The hash function reduces the message to a fixed-size digest.
+
+</br>
+
+3. **Signing the Message:**
+    - The signer computes a digital signature using their private key and the hash value of the message.
+    - The signing operation involves performing mathematical operations using the private key and the hash value to create the digital signature.
+    - The exact signature generation process in DSS involves modular arithmetic and other mathematical operations.
+
+</br>
+
+4. **Verification Process:**
+    - The verifier receives the message, the digital signature, and the signer's public key.
+    - The verifier calculates the hash value of the received message using the same hashing algorithm used by the signer.
+    - Using the public key provided by the signer, the verifier performs mathematical operations to verify the authenticity of the signature.
+    - The verification process checks whether the computed hash matches the hash value extracted from the signature using the public key. If they match, the signature is considered valid; otherwise, it is invalid
 ---
 ## Contributors:
-- [Sara Abdelraheem Hamed]()
-- [Abdelrahim Mohamed Alsadiq]()
+- ### [Sara Abdelraheem Hamed]()
+- ### [Abdelrahim Mohamed Alsadiq]()
