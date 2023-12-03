@@ -1,7 +1,3 @@
-# algorithms
-This directory contains the algorithms source codes.
-
----
 >Note: Each title can be found in the source code with ```###``` comment
 ## 1. How is the Secure Hash Algorithm 1 (SHA-1) Works:
 1. **Padding:** 
