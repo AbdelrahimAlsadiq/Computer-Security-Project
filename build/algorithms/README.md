@@ -1,3 +1,8 @@
+algorithms
+This directory contains the algorithms source codes.
+
+---
+
 ## 1. How is the Secure Hash Algorithm 1 (SHA-1) Works:
 1. **Padding:** 
     - The input message is padded so that its length is congruent to 448 modulo 512 bits. 
@@ -47,11 +52,6 @@
 
 9. **Final Hash Value:**
     - Concatenate the updated hash values (h0, h1, h2, h3, h4) to obtain a 160-bit hash value, which represents the SHA-1 output or message digest.
-
-</br>
-
-10. **Output:** 
-    - The resulting hash value represents a unique and fixed-size representation of the input message.
 ---
 ## 2. How is the Data Encryption Standard (DES) Works:
 1. **Key Generation:**
