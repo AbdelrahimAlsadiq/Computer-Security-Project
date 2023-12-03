@@ -1,8 +1,8 @@
-algorithms
+# algorithms
 This directory contains the algorithms source codes.
 
 ---
-
+>Note: Each title can be found in the source code with ```###``` comment
 ## 1. How is the Secure Hash Algorithm 1 (SHA-1) Works:
 1. **Padding:** 
     - The input message is padded so that its length is congruent to 448 modulo 512 bits. 
@@ -109,19 +109,14 @@ This directory contains the algorithms source codes.
 
 </br>
 
-2. **Message Hashing:**
-    - Calculate a hash value of the message using a secure hashing algorithm (e.g., SHA-1, SHA-256). The hash function reduces the message to a fixed-size digest.
-
-</br>
-
-3. **Signing the Message:**
+2. **Signing the Message:**
     - The signer computes a digital signature using their private key and the hash value of the message.
     - The signing operation involves performing mathematical operations using the private key and the hash value to create the digital signature.
     - The exact signature generation process in DSS involves modular arithmetic and other mathematical operations.
 
 </br>
 
-4. **Verification Process:**
+3. **Verification Process:**
     - The verifier receives the message, the digital signature, and the signer's public key.
     - The verifier calculates the hash value of the received message using the same hashing algorithm used by the signer.
     - Using the public key provided by the signer, the verifier performs mathematical operations to verify the authenticity of the signature.

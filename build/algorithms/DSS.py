@@ -2,13 +2,20 @@ from ecdsa import SigningKey, VerifyingKey, BadSignatureError
 import base64
 
 class DSS:
+    # Main Constructor:
     def __init__(self, msg):
         self.msg = msg
         self.pk = None
     
+    # Main Function:
     def sign(self):
+        # Convert Message into array of bytes
         bin_msg = self.msg.encode()
+
+        ### 1. Key Generation:
         private_key = SigningKey.generate()
+
+        ### 2. Signing the Message:
         signature = private_key.sign(bin_msg)
         self.pk = private_key.get_verifying_key()
 
@@ -28,6 +35,7 @@ class DSS:
             print("Error setting public key:", e)
             return False
     
+    ### 3. Verification Process:
     def verify(self, signature, public_key, original_msg):
         # Decode the base64 signature and public key strings to bytes
         signature_bytes = base64.b64decode(signature)
