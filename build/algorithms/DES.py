@@ -1,32 +1,81 @@
-# Python3 code for the above approach
-# Hexadecimal to binary conversion
 # Hexadecimal to binary conversion
 def hex2bin(s):
-    return bin(int(s, 16))[2:].zfill(len(s) * 4)
+	mp = {'0': "0000",'1': "0001",'2': "0010",'3': "0011",
+		'4': "0100",'5': "0101",'6': "0110",'7': "0111",
+		'8': "1000",'9': "1001",'A': "1010",'B': "1011",
+		'C': "1100",'D': "1101",'E': "1110",'F': "1111"}
+	bin = ""
+	for i in range(len(s)):
+		bin = bin + mp[s[i]]
+	return bin
 
 # Binary to hexadecimal conversion
 def bin2hex(s):
-    return hex(int(s, 2))[2:]
+	mp = {"0000": '0',"0001": '1',"0010": '2',"0011": '3',
+		"0100": '4',"0101": '5',"0110": '6',"0111": '7',
+		"1000": '8',"1001": '9',"1010": 'A',"1011": 'B',
+		"1100": 'C',"1101": 'D',"1110": 'E',"1111": 'F'}
+	hex = ""
+	for i in range(0, len(s), 4):
+		ch = ""
+		ch = ch + s[i]
+		ch = ch + s[i + 1]
+		ch = ch + s[i + 2]
+		ch = ch + s[i + 3]
+		hex = hex + mp[ch]
+
+	return hex
 
 # Binary to decimal conversion
 def bin2dec(binary):
-    return int(binary, 2)
+
+	binary1 = binary
+	decimal, i, n = 0, 0, 0
+	while(binary != 0):
+		dec = binary % 10
+		decimal = decimal + dec * pow(2, i)
+		binary = binary//10
+		i += 1
+	return decimal
 
 # Decimal to binary conversion
 def dec2bin(num):
-    return bin(num)[2:]
+	res = bin(num).replace("0b", "")
+	if(len(res) % 4 != 0):
+		div = len(res) / 4
+		div = int(div)
+		counter = (4 * (div + 1)) - len(res)
+		for i in range(0, counter):
+			res = '0' + res
+	return res
 
 # Permute function to rearrange the bits
-def permute(k, arr):
-    return ''.join(k[i - 1] for i in arr)
+def permute(k, arr, n):
+	permutation = ""
+	for i in range(0, n):
+		permutation = permutation + k[arr[i] - 1]
+	return permutation
 
-# Shifting the bits towards left by nth shifts
+# shifting the bits towards left by nth shifts
 def shift_left(k, nth_shifts):
-    return k[nth_shifts:] + k[:nth_shifts]
+	s = ""
+	for i in range(nth_shifts):
+		for j in range(1, len(k)):
+			s = s + k[j]
+		s = s + k[0]
+		k = s
+		s = ""
+	return k
 
-# Calculating XOR of two strings of binary numbers a and b
+# calculating xow of two strings of binary number a and b
 def xor(a, b):
-    return ''.join('0' if x == y else '1' for x, y in zip(a, b))
+	ans = ""
+	for i in range(len(a)):
+		if a[i] == b[i]:
+			ans = ans + "0"
+		else:
+			ans = ans + "1"
+	return ans
 
 
 # Table of Position of 64 bits at initial level: Initial Permutation Table
@@ -125,7 +174,7 @@ def encrypt(pt, rkb, rk):
 		### 4. Key Mixing (XOR with Subkey):
 		xor_x = xor(right_expanded, rkb[i])
 
-		### 5. Substitution (S-boxes):
+		### 5. Substitution:
 		sbox_str = ""
 		for j in range(0, 8):
 			row = bin2dec(int(xor_x[j * 6] + xor_x[j * 6 + 5]))
@@ -137,11 +186,9 @@ def encrypt(pt, rkb, rk):
 		### 6. Permutation (P-box):
 		sbox_str = permute(sbox_str, per, 32)
 
-		# XOR left and sbox_str
 		result = xor(left, sbox_str)
 		left = result
 
-		### 7. Feistel Network
 		if(i != 15):
 			left, right = right, left
 
@@ -149,10 +196,8 @@ def encrypt(pt, rkb, rk):
 	# Combination
 	combine = left + right
 
-	### 8. Final Permutation:
+	### 7. Final Permutation:
 	cipher_text = permute(combine, final_perm, 64)
-     
-	### 9. Output:
 	return cipher_text
 
 class DES:
@@ -162,7 +207,6 @@ class DES:
 
     def run(self):
         ### 1. Key Generation:
-
         # --hex to binary
         key_binary = hex2bin(self.key)
 
@@ -196,11 +240,11 @@ class DES:
                     46, 42, 50, 36, 29, 32]
 
         # Splitting
-        left = key[0:28] 
-        right = key[28:56]
+        left = key[0:28]  # rkb for RoundKeys in binary
+        right = key[28:56]  # rk for RoundKeys in hexadecimal
 
-        rkb = []  # for RoundKeys in binary
-        rk = []   # for RoundKeys in hexadecimal
+        rkb = []
+        rk = []
         for i in range(0, 16):
             # Shifting the bits by nth shifts by checking from shift table
             left = shift_left(left, shift_table[i])
@@ -219,7 +263,7 @@ class DES:
 
         rkb_rev = rkb[::-1]
         rk_rev = rk[::-1]
-        
+
 		### 10. Decryption:
         plaintext = bin2hex(encrypt(self.pk, rkb_rev, rk_rev))
 		

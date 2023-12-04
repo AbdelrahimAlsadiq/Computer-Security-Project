@@ -32,7 +32,7 @@ class DSS_FORM():
             "BASE64-PUBLIC-KEY":public_key
         }
         
-        with open('outputs/DSS_output.txt', 'a') as file:
+        with open(Path(__file__).parent / Path(r'outputs/DSS_output.txt'), 'a') as file:
             file.write(f'{str(result)}\n')
         messagebox.showinfo("Signing Results", f'Base-64 Signature:\n{signature}\n------------------------------\nBase-64 Public Key:\n{public_key}\n------------------------------\nstored in DSS_output.txt successfully.')
     
@@ -49,7 +49,7 @@ class DSS_FORM():
 
 
     def open_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+        file_path = filedialog.askopenfilename(filetypes=[("Text files")])
         if file_path:
             with open(file_path, 'r') as file:
                 content = file.read()
@@ -65,7 +65,7 @@ class DSS_FORM():
                     "BASE64-PUBLIC-KEY":public_key
                 }
                 
-                with open('outputs/DSS_output.txt', 'a') as file:
+                with open(Path(__file__).parent / Path(r'outputs/DSS_output.txt'), 'a') as file:
                     file.write(f'{str(result)}\n')
         messagebox.showinfo("Signing Results", f'The Signing Results of the messages are stored in DSS_output.txt Successfully.')
 

@@ -31,7 +31,7 @@ class DES_FORM:
             "KEY": str(key),
             "CIPHER-TEXT": str(ciphertext)
         }
-        with open('outputs/DES_output.txt', 'a') as file:
+        with open(Path(__file__).parent / Path(r'outputs/DES_output.txt'), 'a') as file:
             file.write(f'{str(result)}\n')
         messagebox.showinfo("Encrypted Value", f'The Encrypted Value of the Message:\n{ciphertext}\n------------------------------\nstored in DES_output.txt successfully.')
 
@@ -40,23 +40,23 @@ class DES_FORM:
         plaintext = des.run()[1]
 
         result = {
-            "CIPHER-TEXT": str(ciphertext),
+            "PLAIN-TEXT": str(plaintext),
             "KEY": str(key),
-            "PLAIN-TEXT": str(plaintext)
+            "CIPHER-TEXT": str(ciphertext)
         }
-        with open('outputs/DES_output.txt', 'a') as file:
+        with open(Path(__file__).parent / Path(r'outputs/DES_output.txt'), 'a') as file:
             file.write(f'{str(result)}\n')
         messagebox.showinfo("Decrypted Value", f'The Decrypted Value of the Message:\n{plaintext}\n------------------------------\nstored in DES_output.txt successfully.')
 
     def open_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if file_path:
             with open(file_path, 'r') as file:
                 content = file.read()
         l = content.split("\n")
         for msg in l:
             if msg != "":
-                plaintext, key = msg.split(" ")
+                plaintext, key = msg.split(",")
                 des = DES(plaintext, key)
                 ciphertext = des.run()[0]
 
@@ -65,7 +65,7 @@ class DES_FORM:
                     "KEY": str(key),
                     "CIPHER-TEXT": str(ciphertext)
                 }
-                with open('outputs/DES_output.txt', 'a') as file:
+                with open(Path(__file__).parent / Path(r'outputs/DES_output.txt'), 'a') as file:
                     file.write(f'{str(result)}\n')
         messagebox.showinfo("Result", f'The Encrypted Values of the messages are stored in DES_output.txt Successfully.')
 

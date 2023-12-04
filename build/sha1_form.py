@@ -28,12 +28,12 @@ class SHA1_FORM:
             "MESSAGE": str(msg),
             "HASH-VALUE": str(hashed_msg.sha1_hash()),
         }
-        with open('outputs/SHA1_output.txt', 'a') as file:
+        with open(Path(__file__).parent / Path(r'outputs/SHA1_output.txt'), 'a') as file:
             file.write(f'{str(result)}\n')
         messagebox.showinfo("Hash Value", f'The Hash Value of the Message:\n{hashed_msg.sha1_hash()}\n------------------------------\nstored in SHA1_output.txt Successfully.')
 
     def open_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("All files", "*.*")])
+        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if file_path:
             with open(file_path, 'r') as file:
                 content = file.read()
@@ -45,7 +45,7 @@ class SHA1_FORM:
                     "MESSAGE": str(msg),
                     "HASH-VALUE": str(hashed_msg.sha1_hash()),
                 }
-                with open('outputs/SHA1_output.txt', 'a') as file:
+                with open(Path(__file__).parent / Path(r'outputs/SHA1_output.txt'), 'a') as file:
                     file.write(f'{str(result)}\n')
         messagebox.showinfo("Result", f'The Hash Values of the messages are stored in SHA1_output.txt Successfully.')
 

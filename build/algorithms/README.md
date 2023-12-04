@@ -80,9 +80,6 @@
 
 </br>
 
-7. **Feistel Network:**
-    - Use a Feistel network structure by swapping the left and right halves, and repeating steps 3 to 6 for a total of 16 rounds (iterations) with different subkeys.
-
 8. **Final Permutation (FP):**
     - After the 16 rounds of the Feistel structure, perform a final permutation (FP) on the swapped halves of the data.
 
