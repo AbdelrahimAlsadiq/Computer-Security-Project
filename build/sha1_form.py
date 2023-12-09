@@ -23,6 +23,9 @@ class SHA1_FORM:
         window.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
 
     def sign(self, msg):
+        if not msg:
+            messagebox.showerror("Error", "Please Enter a Non-Empty Message Value.")
+            return
         hashed_msg = SHA1(msg)
         result = {
             "MESSAGE": str(msg),
@@ -47,7 +50,7 @@ class SHA1_FORM:
                 }
                 with open(Path(__file__).parent / Path(r'outputs/SHA1_output.txt'), 'a') as file:
                     file.write(f'{str(result)}\n')
-        messagebox.showinfo("Result", f'The Hash Values of the messages are stored in SHA1_output.txt Successfully.')
+        messagebox.showinfo("Result", "The Hash Values of the messages are stored in SHA1_output.txt Successfully.")
 
 
     def show_sha1_form(self):

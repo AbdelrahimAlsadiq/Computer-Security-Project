@@ -23,13 +23,16 @@ class DSS_FORM():
         window.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
     
     def sign(self, msg):
+        if len(msg) == 0:
+            messagebox.showerror("Error", "Please Enter a non-empty Message.")
+            return
         obj = DSS(msg)
         signature, public_key = obj.sign()
 
         result = {
             "MESSAGE":msg,
-            "BASE64-SIGNATURE":signature,
-            "BASE64-PUBLIC-KEY":public_key
+            "BASE64-PUBLIC-KEY":public_key,
+            "BASE64-SIGNATURE":signature
         }
         
         with open(Path(__file__).parent / Path(r'outputs/DSS_output.txt'), 'a') as file:
@@ -49,7 +52,7 @@ class DSS_FORM():
 
 
     def open_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Text files")])
+        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if file_path:
             with open(file_path, 'r') as file:
                 content = file.read()
@@ -61,13 +64,13 @@ class DSS_FORM():
 
                 result = {
                     "MESSAGE":msg,
-                    "BASE64-SIGNATURE":signature,
-                    "BASE64-PUBLIC-KEY":public_key
+                    "BASE64-PUBLIC-KEY":public_key,
+                    "BASE64-SIGNATURE":signature
                 }
                 
                 with open(Path(__file__).parent / Path(r'outputs/DSS_output.txt'), 'a') as file:
                     file.write(f'{str(result)}\n')
-        messagebox.showinfo("Signing Results", f'The Signing Results of the messages are stored in DSS_output.txt Successfully.')
+        messagebox.showinfo("Signing Results", 'The Signing Results of the messages are stored in DSS_output.txt Successfully.')
 
 
     def show_dss_form(self):

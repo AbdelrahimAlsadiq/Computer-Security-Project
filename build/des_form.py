@@ -24,7 +24,11 @@ class DES_FORM:
 
     def encrypt(self, plaintext, key):
         des = DES(plaintext, key)
-        ciphertext = des.run()[0]
+        try:
+            ciphertext = des.run()[0]
+        except:
+            messagebox.showerror("Error", "Please Enter a Valid 16-digit Hexadecimal Values for both Message and Key.")
+            
 
         result = {
             "PLAIN-TEXT": str(plaintext),
@@ -37,7 +41,10 @@ class DES_FORM:
 
     def decrypt(self, ciphertext, key):
         des = DES(ciphertext, key)
-        plaintext = des.run()[1]
+        try:
+            plaintext = des.run()[1]
+        except:
+            messagebox.showerror("Error", "Please Enter a Valid 16-digit Hexadecimal Values for both Message and Key.")
 
         result = {
             "PLAIN-TEXT": str(plaintext),
