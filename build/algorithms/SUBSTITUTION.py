@@ -5,11 +5,10 @@ class SUBSTITUTION:
     global alphabet
     alphabet = "abcdefghijklmnopqrstuvwxyz"
 
-    def __init__(self, msg, key, cipher) -> None:
+    def __init__(self, msg=None, key=None, cipher=None) -> None:
         self.msg = msg
-        self.key = key
+        self.key = key.lower()
         self.cipher = cipher
-        self.alphabet = alphabet
     
     def generate_key(self):
         self.key = ""    
@@ -20,7 +19,7 @@ class SUBSTITUTION:
         return self.key
 
     def is_valid_key(self):
-        return list(self.alphabet.lower()) == sorted(list(self.key))
+        return list(alphabet) == sorted(list(self.key.lower()))
     
     def encrypt(self):
         if self.key == "":
@@ -32,9 +31,9 @@ class SUBSTITUTION:
                 self.cipher += self.msg[i]
             else:
                 if self.msg[i].isupper():
-                    self.cipher += self.key[self.alphabet.index(self.msg[i].lower())].upper()
+                    self.cipher += self.key[alphabet.index(self.msg[i].lower())].upper()
                 else:
-                    self.cipher += self.key[self.alphabet.index(self.msg[i])]
+                    self.cipher += self.key[alphabet.index(self.msg[i])]
 
         return self.cipher
     
@@ -42,12 +41,12 @@ class SUBSTITUTION:
 
         self.msg = ""
         for i in range(len(self.cipher)):
-            if self.cipher[i].lower() not in self.alphabet:
+            if self.cipher[i].lower() not in alphabet:
                 self.msg += self.cipher[i]
             else:
                 if self.cipher[i].isupper():
-                    self.msg += self.alphabet[self.key.index(self.cipher[i].lower())].upper()
+                    self.msg += alphabet[self.key.index(self.cipher[i].lower())].upper()
                 else:
-                    self.msg += self.alphabet[self.key.index(self.cipher[i])]
+                    self.msg += alphabet[self.key.index(self.cipher[i])]
 
         return self.msg
