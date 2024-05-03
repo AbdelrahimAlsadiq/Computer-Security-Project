@@ -1,5 +1,5 @@
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Button, PhotoImage, Toplevel, messagebox, filedialog
+from tkinter import Canvas, Entry, Button, PhotoImage, Toplevel, messagebox, filedialog
 from algorithms.CAESAR import *
 
 class caesar_form:
@@ -60,7 +60,7 @@ class caesar_form:
         }
         with open(Path(__file__).parent / Path(r'outputs/CAESAR_output.txt'), 'a') as file:
             file.write(f'{str(result)}\n')
-        messagebox.showinfo("Decrypted Value", f'The Decrypted Value of the Message:\n{plaintext}\n------------------------------\nstored in CAESAR.txt successfully.')
+        messagebox.showinfo("Decrypted Value", f'The Decrypted Value of the Message:\n{plaintext}\n------------------------------\nstored in CAESAR_output.txt successfully.')
 
     def open_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
@@ -71,7 +71,7 @@ class caesar_form:
         for msg in l:
             if msg != "":
                 plaintext, key = msg.split(",")
-                ceaser = CAESAR(msg=plaintext, key=key, cipher="")
+                ceaser = CAESAR(msg=plaintext, key=key)
                 ciphertext = ceaser.encrypt()
 
                 result = {
@@ -89,7 +89,7 @@ class caesar_form:
         caesar_form = Toplevel()
         caesar_form.geometry("1250x700")
         caesar_form.configure(bg="#041626")
-        caesar_form.title("Ceaser Cipher Form")
+        caesar_form.title("Caesar Cipher Form")
 
         canvas = Canvas(
             caesar_form,
