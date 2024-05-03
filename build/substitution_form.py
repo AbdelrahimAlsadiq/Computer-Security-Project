@@ -1,5 +1,5 @@
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Button, PhotoImage, Toplevel, messagebox, filedialog
+from tkinter import Canvas, Entry, Button, PhotoImage, Toplevel, messagebox, filedialog
 from algorithms.SUBSTITUTION import *
 
 class substitution_form:
@@ -23,7 +23,7 @@ class substitution_form:
         window.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
 
     def encrypt(self, plaintext, key):
-        substitution = SUBSTITUTION(msg=plaintext, key=key, cipher="")
+        substitution = SUBSTITUTION(msg=plaintext, key=key)
 
         try:
             if substitution.key == "":
@@ -39,17 +39,18 @@ class substitution_form:
             
 
         result = {
+            "OPERATION": "Encryption",
             "PLAIN-TEXT": str(plaintext),
             "KEY": str(key),
             "CIPHER-TEXT": str(ciphertext)
         }
         with open(Path(__file__).parent / Path(r'outputs/SUBSTITUTION_output.txt'), 'a') as file:
             file.write(f'{str(result)}\n')
-        messagebox.showinfo("Encrypted Value", f'The Encrypted Value of the Message:\n{ciphertext}\n------------------------------\nstored in DES_output.txt successfully.')
+        messagebox.showinfo("Encrypted Value", f'The Encrypted Value of the Message:\n{ciphertext}\n------------------------------\nstored in SUBSTITUTION_output.txt successfully.')
 
     def decrypt(self, ciphertext, key):
         try:
-            substitution = SUBSTITUTION(msg="", key=key, cipher=ciphertext)
+            substitution = SUBSTITUTION(key=key, cipher=ciphertext)
 
             if not substitution.is_valid_key():
                 messagebox.showerror("Error", "Please Enter a Valid key.\n(Must be unique 26 alphabet characters)")
@@ -58,6 +59,7 @@ class substitution_form:
         except:
             messagebox.showerror("Error", "Please Enter a Valid Ciphertext and Key.")
         result = {
+            "OPERATION": "Decryption",
             "PLAIN-TEXT": str(plaintext),
             "KEY": str(key),
             "CIPHER-TEXT": str(ciphertext)
@@ -76,9 +78,15 @@ class substitution_form:
             if msg != "":
                 plaintext, key = msg.split(",")
                 substitution = SUBSTITUTION(msg=plaintext, key=key)
+
+                if substitution.key == "":
+                    substitution.generate_key()
+                    key = substitution.key
+
                 ciphertext = substitution.encrypt()
 
                 result = {
+                    "OPERATION": "File Encryption",
                     "PLAIN-TEXT": str(plaintext),
                     "KEY": str(key),
                     "CIPHER-TEXT": str(ciphertext)
