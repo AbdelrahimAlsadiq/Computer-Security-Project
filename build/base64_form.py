@@ -29,6 +29,7 @@ class base64_form:
         base64 = BASE64(data=data)
         encoded = base64.encode()
         result = {
+            "OPERATION": "Encoding",
             "DATA": str(data),
             "ENCODED-VALUE": str(encoded),
         }
@@ -43,12 +44,13 @@ class base64_form:
         base64 = BASE64(encoded=encoded)
         decoded = base64.decode()
         result = {
-            "ENCODED-VALUE": str(encoded),
-            "DATA": str(decoded),
+            "OPERATION":"Decoding",
+            "ENCODED-VALUE": encoded,
+            "DATA": decoded,
         }
         with open(Path(__file__).parent / Path(r'outputs/BASE64_output.txt'), 'a') as file:
             file.write(f'{str(result)}\n')
-        messagebox.showinfo("Decoded Value", f'The Decoded Value:\n{encoded}\n------------------------------\nstored in BASE64_output.txt Successfully.')
+        messagebox.showinfo("Decoded Value", f'The Decoded Value:\n{decoded}\n------------------------------\nstored in BASE64_output.txt Successfully.')
 
 
     def open_file(self):
@@ -62,6 +64,7 @@ class base64_form:
                 base64 = BASE64(data=data)
                 encoded = base64.encode()
                 result = {
+                    "OPERATION": "File Encoding",
                     "DATA": str(data),
                     "ENCODED-VALUE": str(encoded),
                 }
