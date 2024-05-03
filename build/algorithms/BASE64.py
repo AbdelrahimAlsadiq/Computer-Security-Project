@@ -8,53 +8,54 @@ class BASE64:
     
     def encode(self):
 
-        # Convert string to bytes
-        if isinstance(self.data, str):
-            self.data = self.data.encode()
+
+        self.data = self.data.encode()
 
         # Padding the input string with zero bytes to make its length a multiple of 3
+        padding = 0
         while len(self.data) % 3 != 0:
             self.data += b'\x00'
+            padding += 1
 
         # Encode the data
         result = ''
         for i in range(0, len(self.data), 3):
             chunk = (self.data[i] << 16) + (self.data[i + 1] << 8) + self.data[i + 2]
+
+            # First 6 bits
             result += alphabet[(chunk >> 18) & 63]
+
+            # Second 6 bits
             result += alphabet[(chunk >> 12) & 63]
+
+            # Third 6 bits (may be a padding)
             result += alphabet[(chunk >> 6) & 63]
+            
+            # Fourth 6 bits (may be a padding)
             result += alphabet[chunk & 63]
 
-        # Add padding if necessary
-        padding = len(self.data) % 3
-        if padding == 1:
-            result = result[:-2] + '=='
-        elif padding == 2:
-            result = result[:-1] + '='
-
+        list_result = list(result)
+        if padding > 0:
+            for i in range(padding):
+                list_result[len(result)-(i+1)] = "="
+        result = ''.join(list_result)
         return result
     
     def decode(self):
-        # Reverse mapping for Base64 alphabet
-        base64_dict = {char: i for i, char in enumerate(alphabet)}
+        bit_str = ""
+        self.data = ""
 
-        # Remove padding characters
-        self.encoded = self.encoded.rstrip('=')
-
-        # Convert encoded string to bytes
-        encoded_bytes = bytearray()
         for char in self.encoded:
-            encoded_bytes.append(base64_dict[char])
+            if char in alphabet:
+                bin_char = bin(alphabet.index(char)).lstrip("0b")
+                bin_char = bin_char.zfill(6)
+                bit_str += bin_char
 
-        # Decode the data
-        result = bytearray()
-        for i in range(0, len(encoded_bytes), 4):
-            chunk = (encoded_bytes[i] << 18) + (encoded_bytes[i + 1] << 12) + (encoded_bytes[i + 2] << 6) + encoded_bytes[i + 3]
-            result.append((chunk >> 16) & 255)
-            result.append((chunk >> 8) & 255)
-            result.append(chunk & 255)
+        brackets = [bit_str[x:x+8] for x in range(0,len(bit_str),8)]
 
-        # Remove any zero padding
-        result = result.rstrip(b'\x00')
+        for bracket in brackets:
+            self.data += chr(int(bracket,2))
+        
+        self.data = self.data.replace("\x00","")
+        return self.data
 
-        return bytes(result)
