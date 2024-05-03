@@ -1,5 +1,5 @@
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Button, PhotoImage, Toplevel, messagebox, filedialog
+from tkinter import Canvas, Entry, Button, PhotoImage, Toplevel, messagebox, filedialog
 from algorithms.VIGENERE import *
 
 class vigenere_form:
@@ -34,6 +34,7 @@ class vigenere_form:
             
 
         result = {
+            "OPERATION": "Encryption",
             "PLAIN-TEXT": str(plaintext),
             "KEY": str(key),
             "CIPHER-TEXT": str(ciphertext)
@@ -53,6 +54,7 @@ class vigenere_form:
         except:
             messagebox.showerror("Error", "Please Enter a Valid Ciphertext and Key.")
         result = {
+            "OPERATION": "Decryption",
             "PLAIN-TEXT": str(plaintext),
             "KEY": str(key),
             "CIPHER-TEXT": str(ciphertext)
@@ -74,6 +76,7 @@ class vigenere_form:
                 ciphertext = vigenere.encrypt()
 
                 result = {
+                    "OPERATION": "File Encryption",
                     "PLAIN-TEXT": str(plaintext),
                     "KEY": str(key),
                     "CIPHER-TEXT": str(ciphertext)
