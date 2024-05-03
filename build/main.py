@@ -1,6 +1,6 @@
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-from menu import *
+from tkinter import Tk, Canvas, PhotoImage
+from main_menu import *
 
 # Helpful Functions:
 OUTPUT_PATH = Path(__file__).parent
@@ -11,7 +11,7 @@ def hide_main_window():
     open_second_window()  # Show the second window
 
 def open_second_window():
-    obj = menu(ASSETS_PATH)
+    obj = main_menu(ASSETS_PATH)
     obj.show_main()
 
 def center_window(window):
