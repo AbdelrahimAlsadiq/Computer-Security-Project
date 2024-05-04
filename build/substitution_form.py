@@ -74,26 +74,57 @@ class substitution_form:
             with open(file_path, 'r') as file:
                 content = file.read()
         l = content.split("\n")
-        for msg in l:
-            if msg != "":
-                plaintext, key = msg.split(",")
-                substitution = SUBSTITUTION(msg=plaintext, key=key)
+        mode = l[0]
+        l = l[1:]
+        output = ""
 
-                if substitution.key == "":
-                    substitution.generate_key()
-                    key = substitution.key
+        if mode.lower() == "encryption":
+            for msg in l:
+                if msg != "":
+                    plaintext, key = msg.split(",")
+                    substitution = SUBSTITUTION(msg=plaintext, key=key)
 
-                ciphertext = substitution.encrypt()
+                    if substitution.key == "":
+                        substitution.generate_key()
+                        key = substitution.key
 
-                result = {
-                    "OPERATION": "File Encryption",
-                    "PLAIN-TEXT": str(plaintext),
-                    "KEY": str(key),
-                    "CIPHER-TEXT": str(ciphertext)
-                }
-                with open(Path(__file__).parent / Path(r'outputs/SUBSTITUTION_output.txt'), 'a') as file:
-                    file.write(f'{str(result)}\n')
-        messagebox.showinfo("Result", f'The Encrypted Values of the messages are stored in SUBSTITUTION_output.txt Successfully.')
+                    ciphertext = substitution.encrypt()
+
+                    output += f"{plaintext} --> {ciphertext}\n"
+
+                    result = {
+                        "OPERATION": "File Encryption",
+                        "PLAIN-TEXT": str(plaintext),
+                        "KEY": str(key),
+                        "CIPHER-TEXT": str(ciphertext)
+                    }
+                    with open(Path(__file__).parent / Path(r'outputs/SUBSTITUTION_output.txt'), 'a') as file:
+                        file.write(f'{str(result)}\n')
+            messagebox.showinfo("Result", f'The Encrypted Values of the messages:\n\n{output}\nstored in SUBSTITUTION_output.txt Successfully.')
+
+        elif mode.lower() == "decryption":
+            for msg in l:
+                if msg != "":
+                    ciphertext, key = msg.split(",")
+                    substitution = SUBSTITUTION(cipher=ciphertext, key=key)
+
+                    plaintext = substitution.decrypt()
+                    output += f"{ciphertext} --> {plaintext}\n"
+
+                    result = {
+                        "OPERATION": "File Decryption",
+                        "PLAIN-TEXT": str(plaintext),
+                        "KEY": str(key),
+                        "CIPHER-TEXT": str(ciphertext)
+                    }
+                    with open(Path(__file__).parent / Path(r'outputs/SUBSTITUTION_output.txt'), 'a') as file:
+                        file.write(f'{str(result)}\n')
+            messagebox.showinfo("Result", f'The Decrypted Values of the messages:\n\n{output}\nstored in SUBSTITUTION_output.txt Successfully.')
+
+        else:
+            messagebox.showerror("Invalid Mode", "Enter the mode at the first line of the file.\n(Encryption - Decryption)")
+
+        
 
 
     def show_substitution_form(self):

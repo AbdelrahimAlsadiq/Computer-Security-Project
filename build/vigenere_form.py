@@ -69,21 +69,52 @@ class vigenere_form:
             with open(file_path, 'r') as file:
                 content = file.read()
         l = content.split("\n")
-        for msg in l:
-            if msg != "":
-                plaintext, key = msg.split(",")
-                vigenere = VIGENERE(msg=plaintext, key=key)
-                ciphertext = vigenere.encrypt()
+        mode = l[0]
+        l = l[1:]
+        output = ""
 
-                result = {
-                    "OPERATION": "File Encryption",
-                    "PLAIN-TEXT": str(plaintext),
-                    "KEY": str(key),
-                    "CIPHER-TEXT": str(ciphertext)
-                }
-                with open(Path(__file__).parent / Path(r'outputs/VIGENERE_output.txt'), 'a') as file:
-                    file.write(f'{str(result)}\n')
-        messagebox.showinfo("Result", f'The Encrypted Values of the messages are stored in VIGENERE_output.txt Successfully.')
+        if mode.lower() == "encryption":
+            for msg in l:
+                if msg != "":
+                    plaintext, key = msg.split(",")
+                    vigenere = VIGENERE(msg=plaintext, key=key)
+                    ciphertext = vigenere.encrypt()
+                     
+                    output += f"{plaintext} --> {ciphertext}\n"
+
+                    result = {
+                        "OPERATION": "File Encryption",
+                        "PLAIN-TEXT": str(plaintext),
+                        "KEY": str(key),
+                        "CIPHER-TEXT": str(ciphertext)
+                    }
+                    with open(Path(__file__).parent / Path(r'outputs/VIGENERE_output.txt'), 'a') as file:
+                        file.write(f'{str(result)}\n')
+            messagebox.showinfo("Result", f'The Encrypted Values of the messages:\n\n{output}\nstored in VIGENERE_output.txt Successfully.')
+
+        elif mode.lower() == "decryption":
+            for msg in l:
+                if msg != "":
+                    ciphertext, key = msg.split(",")
+                    vigenere = VIGENERE(cipher=ciphertext, key=key)
+                    plaintext = vigenere.decrypt()
+                     
+                    output += f"{ciphertext} --> {plaintext}\n"
+
+                    result = {
+                        "OPERATION": "File Decryption",
+                        "PLAIN-TEXT": str(plaintext),
+                        "KEY": str(key),
+                        "CIPHER-TEXT": str(ciphertext)
+                    }
+                    with open(Path(__file__).parent / Path(r'outputs/VIGENERE_output.txt'), 'a') as file:
+                        file.write(f'{str(result)}\n')
+            messagebox.showinfo("Result", f'The Decrypted Values of the messages:\n\n{output}\nstored in VIGENERE_output.txt Successfully.')
+
+        else:
+            messagebox.showerror("Invalid Mode", "Enter the mode at the first line of the file.\n(Encryption - Decryption)")
+
+        
 
 
     def show_vigenere_form(self):

@@ -45,8 +45,8 @@ class base64_form:
         decoded = base64.decode()
         result = {
             "OPERATION":"Decoding",
-            "ENCODED-VALUE": encoded,
             "DATA": decoded,
+            "ENCODED-VALUE": encoded
         }
         with open(Path(__file__).parent / Path(r'outputs/BASE64_output.txt'), 'a') as file:
             file.write(f'{str(result)}\n')
@@ -59,18 +59,46 @@ class base64_form:
             with open(file_path, 'r') as file:
                 content = file.read()
         l = content.split("\n")
-        for data in l:
-            if data != "":
-                base64 = BASE64(data=data)
-                encoded = base64.encode()
-                result = {
-                    "OPERATION": "File Encoding",
-                    "DATA": str(data),
-                    "ENCODED-VALUE": str(encoded),
-                }
-                with open(Path(__file__).parent / Path(r'outputs/BASE64_output.txt'), 'a') as file:
-                    file.write(f'{str(result)}\n')
-        messagebox.showinfo("Result", "The Encoded Values of the data are stored in BASE64_output.txt Successfully.")
+        mode = l[0]
+        l = l[1:]
+        output = ""
+
+        if mode.lower() == "encoding":
+            for data in l:
+                if data != "":
+                    base64 = BASE64(data=data)
+                    encoded = base64.encode()
+
+                    output += f"{data} --> {encoded}\n"
+
+                    result = {
+                        "OPERATION": "File Encoding",
+                        "DATA": str(data),
+                        "ENCODED-VALUE": str(encoded),
+                    }
+                    with open(Path(__file__).parent / Path(r'outputs/BASE64_output.txt'), 'a') as file:
+                        file.write(f'{str(result)}\n')
+            messagebox.showinfo("Result", f'The Encoded Values of the messages:\n\n{output}\nstored in BASE64_output.txt Successfully.')
+
+        elif mode.lower() == "decoding":
+            for encoded in l:
+                if encoded != "":
+                    base64 = BASE64(encoded=encoded)
+                    data = base64.decode()
+                    
+                    output += f"{encoded} --> {data}\n"
+                    
+                    result = {
+                        "OPERATION": "File Decoding",
+                        "DATA": str(data),
+                        "ENCODED-VALUE": str(encoded),
+                    }
+                    with open(Path(__file__).parent / Path(r'outputs/BASE64_output.txt'), 'a') as file:
+                        file.write(f'{str(result)}\n')
+            messagebox.showinfo("Result", f'The Decoded Values of the messages:\n\n{output}\nstored in BASE64_output.txt Successfully.')
+
+        else:
+            messagebox.showerror("Invalid Mode", "Enter the mode at the first line of the file.\n(Encoding - Decoding)")
 
 
     def show_base64_form(self):

@@ -68,21 +68,52 @@ class caesar_form:
             with open(file_path, 'r') as file:
                 content = file.read()
         l = content.split("\n")
-        for msg in l:
-            if msg != "":
-                plaintext, key = msg.split(",")
-                ceaser = CAESAR(msg=plaintext, key=key)
-                ciphertext = ceaser.encrypt()
+        mode = l[0]
+        l = l[1:]
+        output = ""
 
-                result = {
-                    "OPERATION": "File Encryption",
-                    "PLAIN-TEXT": str(plaintext),
-                    "KEY": str(key),
-                    "CIPHER-TEXT": str(ciphertext)
-                }
-                with open(Path(__file__).parent / Path(r'outputs/CAESAR_output.txt'), 'a') as file:
-                    file.write(f'{str(result)}\n')
-        messagebox.showinfo("Result", f'The Encrypted Values of the messages are stored in CAESAR_output.txt Successfully.')
+        if mode.lower() == 'encryption':
+            for msg in l:
+                if msg != "":
+                    plaintext, key = msg.split(",")
+                    ceaser = CAESAR(msg=plaintext, key=key)
+                    ciphertext = ceaser.encrypt()
+
+                    output += f"{plaintext} --> {ciphertext}\n"
+
+                    result = {
+                        "OPERATION": "File Encryption",
+                        "PLAIN-TEXT": str(plaintext),
+                        "KEY": str(key),
+                        "CIPHER-TEXT": str(ciphertext)
+                    }
+                    with open(Path(__file__).parent / Path(r'outputs/CAESAR_output.txt'), 'a') as file:
+                        file.write(f'{result}\n')
+            messagebox.showinfo("Result", f'The Encrypted Values of the messages:\n\n{output}\nstored in CAESAR_output.txt Successfully.')
+        
+        elif mode.lower() == "decryption":
+            for msg in l:
+                if msg != "":
+                    ciphertext, key = msg.split(",")
+                    ceaser = CAESAR(cipher=ciphertext, key=key)
+                    plaintext = ceaser.decrypt()
+
+                    output += f"{ciphertext} --> {plaintext}\n"
+
+                    result = {
+                        "OPERATION": "File Decryption",
+                        "PLAIN-TEXT": str(plaintext),
+                        "KEY": str(key),
+                        "CIPHER-TEXT": str(ciphertext)
+                    }
+                    with open(Path(__file__).parent / Path(r'outputs/CAESAR_output.txt'), 'a') as file:
+                        file.write(f'{result}\n')
+            messagebox.showinfo("Result", f'The Decrypted Values of the messages:\n\n{output}\nstored in CAESAR_output.txt Successfully.')
+
+        else:
+            messagebox.showerror("Invalid Mode", "Enter the mode at the first line of the file.\n(Encryption - Decryption)")
+
+
 
 
     def show_ceaser_form(self):
