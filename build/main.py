@@ -62,5 +62,3 @@ splash.overrideredirect(True)  # Hide window decorations
 splash.attributes('-toolwindow', True)  # Hide from taskbar
 center_window(splash)
 splash.mainloop()
-
-
